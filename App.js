@@ -35,11 +35,13 @@ export default function App() {
             // You can return any component that you like here!
             return <Ionicons name={iconName} size={size} color={color} />;
           },
-          tabBarActiveTintColor: 'tomato',
-          tabBarInactiveTintColor: 'gray',
-        })}>
-        <Tab.Screen name="Feed" component={Feed}options={{headerStyle:{backgroundColor: '#2a475e',},headerTintColor: '#fff'}}/>
-        <Tab.Screen name="Profile" component={Profile}options={{headerStyle:{backgroundColor: '#2a475e',},headerTintColor: '#fff'}}/>
+          tabBarStyle: { backgroundColor: '#1b2838' },
+          tabBarActiveTintColor: '#66c0f4',
+          tabBarInactiveTintColor: '#c7d5e0',
+        })}
+        >
+        <Tab.Screen name="Feed" component={Feed} options={{headerStyle:{backgroundColor: '#2a475e',},headerTintColor: '#fff'}}/>
+        <Tab.Screen name="Profile" component={Profile} options={{headerStyle:{backgroundColor: '#2a475e',},headerTintColor: '#fff'}}/>
       </Tab.Navigator>
     </NavigationContainer>
   );
