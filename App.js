@@ -1,10 +1,10 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Feed from './components/Feed';
 import Profile from './components/Profile';
+import Browse from './components/Browse';
 
 const Tab = createBottomTabNavigator();
 
@@ -25,9 +25,9 @@ export default function App() {
             let iconName;
 
             if (route.name === 'Feed') {
-              iconName = focused
-                ? 'ios-home'
-                : 'ios-home';
+              iconName = focused ? 'ios-home' : 'ios-home';
+            } else if (route.name === 'Browse') {
+              iconName = focused ? 'earth-outline' : 'earth-outline';
             } else if (route.name === 'Profile') {
               iconName = focused ? 'ios-person' : 'ios-person';
             }
@@ -41,6 +41,7 @@ export default function App() {
         })}
         >
         <Tab.Screen name="Feed" component={Feed} options={{headerStyle:{backgroundColor: '#2a475e',},headerTintColor: '#fff'}}/>
+        <Tab.Screen name="Browse" component={Browse} options={{headerStyle:{backgroundColor: '#2a475e',},headerTintColor: '#fff'}}/>
         <Tab.Screen name="Profile" component={Profile} options={{headerStyle:{backgroundColor: '#2a475e',},headerTintColor: '#fff'}}/>
       </Tab.Navigator>
     </NavigationContainer>

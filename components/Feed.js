@@ -1,4 +1,4 @@
-import { FlatList, SafeAreaView, ScrollView, SectionList, StatusBar, StyleSheet, Text, View } from 'react-native';
+import { FlatList, SafeAreaView, StyleSheet, Text, View } from 'react-native';
 
 const DATA = [
     {
