@@ -1,5 +1,6 @@
-import { FlatList, SafeAreaView, StyleSheet, Text, View } from 'react-native';
+import { FlatList, SafeAreaView, StyleSheet, Text, View, Image, Modal, TouchableHighlight, Button } from 'react-native'
 import React, { useEffect, useState } from 'react'
+import GameModal from './GameModal';
 
 
 export default function Feed() {
@@ -7,9 +8,11 @@ export default function Feed() {
     const [data, setData] = useState([])
     const [max, setMax] = useState(0)
     const [count, setCount] = useState(20)
+    const [modalVisible, setModalVisible] = useState(false)
+    const [currentGame, setCurrentGame] = useState({})
 
     useEffect(() => {
-        fetch(`http://192.168.1.185:3000/games?count=${count}`).then(response => response.json())
+        fetch(`http://66.71.85.150:3000/games?count=${count}`).then(response => response.json())
             .then((json) => {
                 setData(json.games)
                 setMax(json.max)
@@ -19,14 +22,21 @@ export default function Feed() {
             })
     }, [count])
 
+
     return (
         <SafeAreaView style={styles.container}>
             <FlatList data={data}
                 keyExtractor={(item, index) => item + index}
                 renderItem={({ item }) => (
-                    <View style={styles.item}>
-                        <Text style={styles.title}>{item.name}</Text>
-                    </View>
+                    <TouchableHighlight onPress={() => {
+                        setModalVisible(true)
+                        setCurrentGame(item)
+                        }}>
+                        <View style={styles.item}>
+                            <Image style={styles.thumbnail} source={{ uri: `https://cdn.akamai.steamstatic.com/steam/apps/${item.appid}/header.jpg` }}/>
+                            <Text style={styles.title}>{item.name}</Text>
+                        </View>
+                    </TouchableHighlight>
                 )}
                 onScroll={({ nativeEvent }) => {
                     if (nativeEvent.layoutMeasurement.height + nativeEvent.contentOffset.y >= nativeEvent.contentSize.height - 10 && data.length === count) {
@@ -38,18 +48,24 @@ export default function Feed() {
             <View style={styles.bottom}>
                 <Text style={styles.index}>Showing 0-{count} of {max} games</Text>
             </View>
+            <Modal style={styles.modalview} visible={modalVisible}>
+                <Button style={styles.exitmodal} onPress={() => {setModalVisible(false)}} title='X'/>
+                <GameModal game={currentGame}/>
+            </Modal>
         </SafeAreaView>
     )
 }
 
 const styles = StyleSheet.create({
     item: {
-        backgroundColor: '#f9c2ff',
-        padding: 20,
-        marginBottom: 3
+        backgroundColor: '#c7d5e0',
+        padding: 10,
+        marginBottom: 3,
+        flexDirection: 'row'
     },
     title: {
-        fontSize: 24,
+        fontSize: 20,
+        flexShrink: 1
     },
     container: {
         flex: 1,
@@ -62,5 +78,19 @@ const styles = StyleSheet.create({
     },
     index: {
         fontSize: 10
+    },
+    thumbnail: {
+        width: 100,
+        height: 100,
+        marginRight: 10
+    },
+    modalview: {
+        backgroundColor: '#c7d5e0',
+        margin: 50
+    },
+    exitmodal: {
+        position: 'absolute',
+        top: 0,
+        right: 0
     }
 });
