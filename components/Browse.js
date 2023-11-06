@@ -12,7 +12,7 @@ export default function Feed() {
     const [currentGame, setCurrentGame] = useState({})
 
     useEffect(() => {
-        fetch(`http://66.71.85.150:3000/games?count=${count}`).then(response => response.json())
+        fetch(`http://66.71.48.19:3000/games?count=${count}`).then(response => response.json())
             .then((json) => {
                 setData(json.games)
                 setMax(json.max)
@@ -48,9 +48,13 @@ export default function Feed() {
             <View style={styles.bottom}>
                 <Text style={styles.index}>Showing 0-{count} of {max} games</Text>
             </View>
-            <Modal style={styles.modalview} visible={modalVisible}>
-                <Button style={styles.exitmodal} onPress={() => {setModalVisible(false)}} title='X'/>
-                <GameModal game={currentGame}/>
+            <Modal visible={modalVisible} transparent={true} animationType='slide'>
+                <View style={styles.modalview}>
+                    <View style={styles.modalheader}>
+                        <Button onPress={() => {setModalVisible(false)}} title='X'/>
+                    </View>
+                    <GameModal game={currentGame}/>
+                </View>
             </Modal>
         </SafeAreaView>
     )
@@ -85,12 +89,14 @@ const styles = StyleSheet.create({
         marginRight: 10
     },
     modalview: {
-        backgroundColor: '#c7d5e0',
-        margin: 50
+        flex: 1
     },
-    exitmodal: {
-        position: 'absolute',
-        top: 0,
-        right: 0
+    modalheader: {
+        backgroundColor: '#1b2838',
+        flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'flex-start',
+        paddingTop: 20,
+        paddingLeft: 10
     }
 });
