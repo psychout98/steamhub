@@ -3,6 +3,8 @@ const app = express()
 const mongoose = require('mongoose')
 const routes = require('./server/routes')
 
+app.use(express.json())
+app.use(express.urlencoded({extended: true}))
 app.use('/', routes)
 
 const start = async () => {

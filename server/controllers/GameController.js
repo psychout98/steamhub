@@ -6,12 +6,12 @@ class GameController {
 
     async getGames(req, res) {
         const data = await gameService.getAllGames(req.query)
-        res.send(JSON.stringify(data))
+        res.send(data)
     }
 
     async updateGames(req, res) {
         const data = await gameService.updateGames()
-        res.send(JSON.stringify(data))
+        res.send(data)
     }
 
 }

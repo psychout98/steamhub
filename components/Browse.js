@@ -1,6 +1,7 @@
 import { FlatList, SafeAreaView, StyleSheet, Text, View, Image, Modal, TouchableHighlight, Button } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import GameModal from './GameModal';
+import axios from 'axios';
 
 
 export default function Feed() {
@@ -8,14 +9,14 @@ export default function Feed() {
     const [data, setData] = useState([])
     const [max, setMax] = useState(0)
     const [count, setCount] = useState(20)
-    const [modalVisible, setModalVisible] = useState(false)
+    const [gameModalVisible, setGameModalVisible] = useState(false)
     const [currentGame, setCurrentGame] = useState({})
 
     useEffect(() => {
-        fetch(`http://66.71.48.19:3000/games?count=${count}`).then(response => response.json())
-            .then((json) => {
-                setData(json.games)
-                setMax(json.max)
+        axios.get(`/games?count=${count}`)
+            .then((result) => {
+                setData(result.data.games)
+                setMax(result.data.max)
             })
             .catch((error) => {
                 console.log(error, 'the fuq')
@@ -29,7 +30,7 @@ export default function Feed() {
                 keyExtractor={(item, index) => item + index}
                 renderItem={({ item }) => (
                     <TouchableHighlight onPress={() => {
-                        setModalVisible(true)
+                        setGameModalVisible(true)
                         setCurrentGame(item)
                         }}>
                         <View style={styles.item}>
@@ -48,14 +49,7 @@ export default function Feed() {
             <View style={styles.bottom}>
                 <Text style={styles.index}>Showing 0-{count} of {max} games</Text>
             </View>
-            <Modal visible={modalVisible} transparent={true} animationType='slide'>
-                <View style={styles.modalview}>
-                    <View style={styles.modalheader}>
-                        <Button onPress={() => {setModalVisible(false)}} title='X'/>
-                    </View>
-                    <GameModal game={currentGame}/>
-                </View>
-            </Modal>
+            <GameModal game={currentGame} gameModalVisible={gameModalVisible} setGameModalVisible={setGameModalVisible}/>
         </SafeAreaView>
     )
 }
@@ -87,16 +81,5 @@ const styles = StyleSheet.create({
         width: 100,
         height: 100,
         marginRight: 10
-    },
-    modalview: {
-        flex: 1
-    },
-    modalheader: {
-        backgroundColor: '#1b2838',
-        flex: 1,
-        flexDirection: 'row',
-        justifyContent: 'flex-start',
-        paddingTop: 20,
-        paddingLeft: 10
     }
 });

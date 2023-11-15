@@ -5,8 +5,11 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import Feed from './components/Feed';
 import Profile from './components/Profile';
 import Browse from './components/Browse';
+import axios from 'axios';
 
 const Tab = createBottomTabNavigator();
+
+axios.defaults.baseURL = 'http://192.168.1.185:3000'
 
 /**
  * Color pallette for steam

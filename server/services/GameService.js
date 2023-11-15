@@ -11,7 +11,7 @@ class GameService {
     }
 
     async updateGames() {
-        fetch('https://api.steampowered.com/ISteamApps/GetAppList/v2/')
+        return fetch('https://api.steampowered.com/ISteamApps/GetAppList/v2/')
         .then(response => response.json())
         .then((json) => {
             return gameRepository.addAllGames(json.applist.apps.filter((game) => game.name !== ''))
