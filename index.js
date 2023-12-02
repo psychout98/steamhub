@@ -2,10 +2,19 @@ const express = require('express')
 const app = express()
 const mongoose = require('mongoose')
 const routes = require('./server/routes')
+var cors = require('cors');
+app.use(cors({
+  origin: "*",
+  credentials: true
+}));
 
 app.use(express.json())
 app.use(express.urlencoded({extended: true}))
-app.use('/', routes)
+app.use('/api', routes)
+
+app.get("/", (req, res) => {
+  res.send("hello there")
+})
 
 const start = async () => {
     try {

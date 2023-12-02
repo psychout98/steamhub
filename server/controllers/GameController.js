@@ -5,13 +5,14 @@ const gameService = new GameService()
 class GameController {
 
     async getGames(req, res) {
+      console.log(req.query)
         const data = await gameService.getAllGames(req.query)
-        res.send(data)
+        return res.send(data)
     }
 
     async updateGames(req, res) {
         const data = await gameService.updateGames()
-        res.send(data)
+        return res.send(data)
     }
 
 }

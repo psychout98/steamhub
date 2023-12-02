@@ -6,12 +6,12 @@ class ReviewController {
 
     async getReviews(req, res) {
         const data = await reviewService.getAllReviews(req.query)
-        res.send(data)
+        return res.send(data)
     }
 
     async postReview(req, res) {
         const data = await reviewService.postReview(req.body)
-        res.send('boop')
+        return res.send('boop')
     }
 
 }

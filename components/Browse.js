@@ -1,7 +1,7 @@
 import { FlatList, SafeAreaView, StyleSheet, Text, View, Image, Modal, TouchableHighlight, Button } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import GameModal from './GameModal';
-import axios from 'axios';
+import Axios from 'axios';
 
 
 export default function Feed() {
@@ -13,14 +13,20 @@ export default function Feed() {
     const [currentGame, setCurrentGame] = useState({})
 
     useEffect(() => {
-        axios.get(`/games?count=${count}`)
-            .then((result) => {
-                setData(result.data.games)
-                setMax(result.data.max)
-            })
-            .catch((error) => {
-                console.log(error, 'the fuq')
-            })
+      async function call() {
+        await Axios({
+          method: "get",
+          url: `/api/games?count=${count}`
+        })
+        .then((result) => {
+          setData(result.data.games)
+          setMax(result.data.max)
+        })
+        .catch((error) => {
+          console.log(JSON.stringify(error), 'the fuq')
+        })
+      } 
+      call()
     }, [count])
 
 
