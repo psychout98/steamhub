@@ -1,14 +1,16 @@
 import { NavigationContainer } from '@react-navigation/native';
+import { StyleSheet, SafeAreaView, Button, View, Text, TextInput } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Feed from './components/Feed';
 import Profile from './components/Profile';
 import Browse from './components/Browse';
 import axios from 'axios';
+import React, { useEffect, useState } from 'react'
 
 const Tab = createBottomTabNavigator();
 
-axios.defaults.baseURL = 'http://192.168.1.19:3000'
+axios.defaults.baseURL = 'http://75.102.64.40:3000'
 
 /**
  * Color pallette for steam
@@ -19,7 +21,15 @@ axios.defaults.baseURL = 'http://192.168.1.19:3000'
  * #c7d5e0  light gray
  */
 export default function App() {
-  return (
+
+  const [username, onChangeUsername] = useState()
+  const [login, setLogin] = useState(false)
+  
+  useEffect(() => {
+
+  }, [username, login])
+
+  return ( login ?
     <NavigationContainer>
       <Tab.Navigator
         screenOptions={({ route }) => ({
@@ -42,11 +52,37 @@ export default function App() {
           tabBarInactiveTintColor: '#c7d5e0',
         })}
         >
-        <Tab.Screen name="Feed" component={Feed} options={{headerStyle:{backgroundColor: '#2a475e',},headerTintColor: '#fff'}}/>
-        <Tab.Screen name="Browse" component={Browse} options={{headerStyle:{backgroundColor: '#2a475e',},headerTintColor: '#fff'}}/>
-        <Tab.Screen name="Profile" component={Profile} options={{headerStyle:{backgroundColor: '#2a475e',},headerTintColor: '#fff'}}/>
+        <Tab.Screen name="Feed" children={()=><Feed username={username}/>} options={{headerStyle:{backgroundColor: '#2a475e',},headerTintColor: '#fff', unmountOnBlur: true}}/>
+        <Tab.Screen name="Browse" children={()=><Browse username={username}/>} options={{headerStyle:{backgroundColor: '#2a475e',},headerTintColor: '#fff', unmountOnBlur: true}}/>
+        <Tab.Screen name="Profile" children={()=><Profile username={username}/>} options={{headerStyle:{backgroundColor: '#2a475e',},headerTintColor: '#fff', unmountOnBlur: true}}/>
       </Tab.Navigator>
-    </NavigationContainer>
+    </NavigationContainer> :
+    <SafeAreaView style={styles.screen}>
+        <View style={styles.container}>
+          <TextInput style={styles.textBox} onChangeText={onChangeUsername} multiline={true} placeholder='enter username'></TextInput>
+          <Button onPress={() => setLogin(true)} title="log in"/>
+        </View>
+    </SafeAreaView>
   );
 }
+
+const styles = StyleSheet.create({
+  screen: {
+    backgroundColor: '#1b2838',
+    flex: 1
+  },
+  container: {
+    flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignSelf: "stretch",
+    marginHorizontal: 60
+  },
+  textBox: {
+      textAlignVertical: 'center',
+      backgroundColor: "white",
+      marginBottom: 20,
+      padding: 5
+  }
+});
 

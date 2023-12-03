@@ -8,8 +8,8 @@ const GameModel = mongoose.model('Game', gameSchema)
 
 class GameRepository {
 
-    async getAllGames() {
-        return await GameModel.find()
+    async getAllGames(count) {
+        return await GameModel.find().limit(count)
     }
 
     async addAllGames(games) {

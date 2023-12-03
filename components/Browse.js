@@ -4,10 +4,9 @@ import GameModal from './GameModal';
 import Axios from 'axios';
 
 
-export default function Feed() {
+export default function Browse({ username }) {
 
     const [data, setData] = useState([])
-    const [max, setMax] = useState(0)
     const [count, setCount] = useState(20)
     const [gameModalVisible, setGameModalVisible] = useState(false)
     const [currentGame, setCurrentGame] = useState({})
@@ -20,10 +19,9 @@ export default function Feed() {
         })
         .then((result) => {
           setData(result.data.games)
-          setMax(result.data.max)
         })
         .catch((error) => {
-          console.log(JSON.stringify(error), 'the fuq')
+          console.log(error)
         })
       } 
       call()
@@ -53,9 +51,9 @@ export default function Feed() {
             >
             </FlatList>
             <View style={styles.bottom}>
-                <Text style={styles.index}>Showing 0-{count} of {max} games</Text>
+                <Text style={styles.index}>Showing 0-{count} games</Text>
             </View>
-            <GameModal game={currentGame} gameModalVisible={gameModalVisible} setGameModalVisible={setGameModalVisible}/>
+            <GameModal game={currentGame} gameModalVisible={gameModalVisible} setGameModalVisible={setGameModalVisible} username={username}/>
         </SafeAreaView>
     )
 }

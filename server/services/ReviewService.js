@@ -4,14 +4,14 @@ const reviewRepository = new ReviewRepository()
 
 class ReviewService {
 
-    async getAllReviews(query) {
+    async getReviews(query) {
         let count = Number(query.count) || 10
-        let reviews = await reviewRepository.getAllReviews()
-        return { reviews: reviews.slice(0, count), max: reviews.length }
+        let reviews = await reviewRepository.getReviews(query.appids || [], query.usernames || [], count)
+        return { reviews: reviews }
     }
 
     async postReview(body) {
-        console.log(body)
+        return { review: await reviewRepository.addReview(body) }
     }
 
 }

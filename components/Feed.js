@@ -1,73 +1,51 @@
-import { FlatList, SafeAreaView, StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, SafeAreaView } from 'react-native';
+import React, { useEffect, useState } from 'react'
+import Axios from 'axios';
+import ReviewList from './ReviewList';
 
-const DATA = [
-    {
-        title: 'Dumb Game',
-        game: 'Among us',
-        review: 'This game is dumb',
-        user: 'psychout98',
-        date: '10/28/2023',
-    },
-    {
-        title: 'Dumb Game',
-        game: 'Among us',
-        review: 'This game is dumb',
-        user: 'psychout98',
-        date: '10/28/2023',
-    },
-    {
-        title: 'Dumb Game',
-        game: 'Among us',
-        review: 'This game is dumb',
-        user: 'psychout98',
-        date: '10/28/2023',
-    },
-    {
-        title: 'Dumb Game',
-        game: 'Among us',
-        review: 'This game is dumb',
-        user: 'psychout98',
-        date: '10/28/2023',
-    }
-];
 
-export default function Feed() {
+export default function Feed({ username }) {
+
+    const [count, setCount] = useState(20)
+    const [data, setData] = useState([])
+    const [max, setMax] = useState(0)
+    
+    useEffect(() => {
+        async function call() {
+            await Axios({
+                method: "get",
+                url: `/api/reviews`,
+                params: {
+                    count: count,
+                    appids: [],
+                    usernames: []
+                }
+            })
+                .then((result) => {
+                    setData(result.data.reviews)
+                    setMax(result.data.max)
+                })
+                .catch((error) => {
+                    console.log(error)
+                })
+        }
+        call()
+    }, [count])
+
     return (
-        <View style={styles.container}>
-            <SafeAreaView>
-                <FlatList data={DATA}
-                    keyExtractor={(item, index) => item + index}
-                    renderItem={({ item }) => (
-                        <View style={styles.item}>
-                            <Text style={styles.title}>{item.title}</Text>
-                            <Text>{item.game}</Text>
-                            <Text>{item.review}</Text>
-                            <Text>{item.user}</Text>
-                            <Text>{item.date}</Text>
-                        </View>
-                    )}
-                >
-                </FlatList>
-            </SafeAreaView>
-        </View>
+        <SafeAreaView style={styles.container}>
+            <ReviewList data={data}/>
+        </SafeAreaView>
     )
 }
 
 const styles = StyleSheet.create({
-    item: {
-      backgroundColor: '#f9c2ff',
-      padding: 20,
-      marginVertical: 8,
-      marginHorizontal: 16,
-    },
     title: {
-      fontSize: 32,
-    }
-    ,
+        fontSize: 32,
+    },
     container: {
         flex: 1,
         backgroundColor: '#1b2838',
         color: '#fff'
-      }
-    ,
-  });
+    }
+});

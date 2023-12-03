@@ -6,8 +6,13 @@ class GameService {
 
     async getAllGames(query) {
         let count = Number(query.count) || 10
-        let games = await gameRepository.getAllGames()
-        return { games: games.slice(0, count), max: games.length }
+        return gameRepository.getAllGames(count)
+            .then(data => {
+                return { games: data }
+            })
+            .catch(error => {
+                console.log(error)
+            })
     }
 
     async updateGames() {
@@ -16,7 +21,6 @@ class GameService {
         .then((json) => {
             return gameRepository.addAllGames(json.applist.apps.filter((game) => game.name !== ''))
             .then((result) => {
-                console.log(result)
                 return { status: 'nailed it' }
             }).catch((error) => {
                 console.log('Error posting to db', error)
