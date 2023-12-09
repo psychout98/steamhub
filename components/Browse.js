@@ -1,6 +1,7 @@
 import { FlatList, SafeAreaView, StyleSheet, Text, View, Image, Modal, TouchableHighlight, Button } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import GameModal from './GameModal';
+import GamePreview from './GamePreview';
 import Axios from 'axios';
 
 
@@ -33,15 +34,7 @@ export default function Browse({ username }) {
             <FlatList data={data}
                 keyExtractor={(item, index) => item + index}
                 renderItem={({ item }) => (
-                    <TouchableHighlight onPress={() => {
-                        setGameModalVisible(true)
-                        setCurrentGame(item)
-                        }}>
-                        <View style={styles.item}>
-                            <Image style={styles.thumbnail} source={{ uri: `https://cdn.akamai.steamstatic.com/steam/apps/${item.appid}/header.jpg` }}/>
-                            <Text style={styles.title}>{item.name}</Text>
-                        </View>
-                    </TouchableHighlight>
+                    <GamePreview item={item} setCurrentGame={setCurrentGame} setGameModalVisible={setGameModalVisible}/>
                 )}
                 onScroll={({ nativeEvent }) => {
                     if (nativeEvent.layoutMeasurement.height + nativeEvent.contentOffset.y >= nativeEvent.contentSize.height - 10 && data.length === count) {
@@ -72,7 +65,9 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#1b2838',
-        color: '#fff'
+        color: '#fff',
+        paddingHorizontal: 20,
+        paddingTop: 20
     },
     bottom: {
         backgroundColor: '#FFFFFF',

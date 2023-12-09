@@ -1,4 +1,4 @@
-import { StyleSheet, SafeAreaView } from 'react-native';
+import { StyleSheet, SafeAreaView, Text } from 'react-native';
 import React, { useEffect, useState } from 'react'
 import Axios from 'axios';
 import ReviewList from './ReviewList';
@@ -34,15 +34,12 @@ export default function Feed({ username }) {
 
     return (
         <SafeAreaView style={styles.container}>
-            <ReviewList data={data}/>
+            <ReviewList data={data} username={username} includeGame={true}/>
         </SafeAreaView>
     )
 }
 
 const styles = StyleSheet.create({
-    title: {
-        fontSize: 32,
-    },
     container: {
         flex: 1,
         backgroundColor: '#1b2838',

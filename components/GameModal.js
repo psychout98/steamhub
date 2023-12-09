@@ -30,7 +30,6 @@ export default function GameModal({ game, gameModalVisible, setGameModalVisible,
         })
         .then((result) => {
             setData(result.data.reviews)
-            setMax(result.data.max)
         })
         .catch((error) => {
             console.log(error)
@@ -44,7 +43,9 @@ export default function GameModal({ game, gameModalVisible, setGameModalVisible,
                 url: "/api/review",
                 data: {
                     text: text,
-                    appid: game.appid
+                    username: username,
+                    appid: game.appid,
+                    game: game.name
                 }
             }).then((result) => {
                 setWriting(false)
@@ -68,11 +69,11 @@ export default function GameModal({ game, gameModalVisible, setGameModalVisible,
                         <Image style={styles.thumbnail} source={{ uri: `https://cdn.akamai.steamstatic.com/steam/apps/${game.appid}/header.jpg` }} />
                     </View>
                     <View style={styles.content}>
-                        <Button onPress={() => writeReview()} title='Write review'></Button>
+                        <Button onPress={() => writeReview(game.name)} title='Write review'></Button>
                         {writing ? <View style={styles.review}>
                             <TextInput style={styles.textBox} onChangeText={onChangeText} multiline={true}></TextInput>
                         </View> : null}
-                        <ReviewList data={data}/>
+                        <ReviewList data={data} includeGame={false}/>
                     </View>
                 </SafeAreaView>
             </View>

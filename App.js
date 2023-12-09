@@ -40,7 +40,7 @@ export default function App() {
               iconName = focused ? 'ios-home' : 'ios-home';
             } else if (route.name === 'Browse') {
               iconName = focused ? 'earth-outline' : 'earth-outline';
-            } else if (route.name === 'Profile') {
+            } else if (route.name === username) {
               iconName = focused ? 'ios-person' : 'ios-person';
             }
 
@@ -54,7 +54,7 @@ export default function App() {
         >
         <Tab.Screen name="Feed" children={()=><Feed username={username}/>} options={{headerStyle:{backgroundColor: '#2a475e',},headerTintColor: '#fff', unmountOnBlur: true}}/>
         <Tab.Screen name="Browse" children={()=><Browse username={username}/>} options={{headerStyle:{backgroundColor: '#2a475e',},headerTintColor: '#fff', unmountOnBlur: true}}/>
-        <Tab.Screen name="Profile" children={()=><Profile username={username}/>} options={{headerStyle:{backgroundColor: '#2a475e',},headerTintColor: '#fff', unmountOnBlur: true}}/>
+        <Tab.Screen name={username} children={()=><Profile username={username} setLogin={setLogin}/>} options={{headerStyle:{backgroundColor: '#2a475e',},headerTintColor: '#fff', unmountOnBlur: true}}/>
       </Tab.Navigator>
     </NavigationContainer> :
     <SafeAreaView style={styles.screen}>
@@ -76,7 +76,8 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'center',
     alignSelf: "stretch",
-    marginHorizontal: 60
+    marginHorizontal: 60,
+    padding: 8
   },
   textBox: {
       textAlignVertical: 'center',
