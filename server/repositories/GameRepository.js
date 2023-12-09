@@ -13,6 +13,7 @@ class GameRepository {
     }
 
     async addAllGames(games) {
+        await GameModel.collection.drop()
         return await GameModel.insertMany(games)
     }
 }
