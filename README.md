@@ -36,9 +36,9 @@ with the necessary links to ensure that you can run the application. If you ever
 resources online.
 
 ###### Tools required
-- [https://www.mongodb.com/products/tools/compass](MongoDBCompass): This is the local MongoDB database
-- [https://nodejs.org/en/download/current](NodeJS): This allows you to run the npm command. We would like to not that you might be required to edit you system's environment variables. However, there are numerous amounts of sources as to how to do this.
-- [https://reactnative.dev/docs/environment-setup](Expo Go): These are the instructions for running the application on your smartphone through the Expo Go application
+- [MongoDBCompass](https://www.mongodb.com/products/tools/compass): This is the local MongoDB database
+- [NodeJS](https://nodejs.org/en/download/current): This allows you to run the npm command. We would like to not that you might be required to edit you system's environment variables. However, there are numerous amounts of sources as to how to do this.
+- [Expo Go](https://reactnative.dev/docs/environment-setup): These are the instructions for running the application on your smartphone through the Expo Go application
 
 ##### Step 2 | Cloning the repository
 Next, open up your favorite terminal, and cd into a directory that you don't mind cloning the repository into such as desktop.
